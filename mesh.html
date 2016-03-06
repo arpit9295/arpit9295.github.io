@@ -52,6 +52,13 @@ $(document).ready(function(){
 			base=0;
 			mul=-239;
 		}
+		node.push({
+			x:mouse.x,
+			y:mouse.y,
+			vx:Math.floor((Math.random()-0.5)*velocity),
+			vy:Math.floor((Math.random()-0.5)*velocity)
+		});
+		number++;
 	});
 	init();
 	function drawLine(x1, y1, x2, y2){
