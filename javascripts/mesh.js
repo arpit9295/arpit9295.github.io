@@ -90,4 +90,4 @@
 		}
 		context.fillRect(mouse.x-2,mouse.y-2,4,4);
 	};
-};)()
+})();
