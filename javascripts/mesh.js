@@ -1,16 +1,21 @@
+//sourced from arpit9295.github.io
+//licenced under GNU GPL v3
+
 (function(){
-	var canvas=document.getElementById("mesh");
+	var div=document.getElementById("mesh");
+	var canvas=document.createElement("canvas");
+	canvas.id="mesh_canvas";
 	var context=canvas.getContext("2d");
-	//var ch=800, cw=600;
-	canvas.height=window.innerHeight;
-	canvas.width=window.innerWidth;
+	div.appendChild(canvas);
+	canvas.height= div.clientHeight;
+	canvas.width= div.clientWidth;
 	var ch=canvas.height, cw=canvas.width;
 	var rect = canvas.getBoundingClientRect();
 	var node, mouse, number;
 	var	threshold=200, velocity=5;
 	var pcolor="#fff", bcolor="#111", base=255, mul=239;
 	function init(){
-		number=cw*ch*20/(800*600);
+		number=cw*ch*30/(800*600);
 		node=[];
 		mouse={
 			x:0,
@@ -31,22 +36,13 @@
 		mouse.x=d.pageX-rect.left, mouse.y=d.pageY-rect.top;
 	});
 	$(document).mousedown(function (d){
-		if(bcolor=="#eee")
-			bcolor="#111";
-		else
-			bcolor="#eee";
-		if(pcolor=="#fff")
-			pcolor="#000";
-		else
-			pcolor="#fff";
-		if(base==0){
-			base=255;
-			mul=239;
-		}
-		else{
-			base=0;
-			mul=-239;
-		}
+			node.push({
+				x:mouse.x,
+				y:mouse.y,
+				vx:Math.floor((Math.random()-0.5)*velocity),
+				vy:Math.floor((Math.random()-0.5)*velocity)
+			});
+			number++;
 	});
 	init();
 	function drawLine(x1, y1, x2, y2){
@@ -71,17 +67,16 @@
 			for(var j=i+1 ; j<number ; j++){
 				drawLine(node[i].x,node[i].y,node[j].x,node[j].y);
 			}
-				
 			node[i].x+=node[i].vx;
 			node[i].y+=node[i].vy;
-			if(node[i].x>cw)
-				node[i].x-=cw;	
-			else if(node[i].x<0)
-				node[i].x+=cw;
-			if(node[i].y>ch)
-				node[i].y-=ch;
-			else if(node[i].y<0)
-				node[i].y+=ch;
+			if(node[i].x>(cw+threshold))
+				node[i].x=(-threshold);	
+			else if(node[i].x<(-threshold))
+				node[i].x=(cw+threshold);
+			if(node[i].y>(ch+threshold))
+				node[i].y=(-threshold);
+			else if(node[i].y<(-threshold))
+				node[i].y=(ch+threshold);
 		}
 		for(var j=0 ; j<number ; j++){
 			drawLine(mouse.x,mouse.y,node[j].x,node[j].y);
@@ -91,3 +86,6 @@
 		context.fillRect(mouse.x-2,mouse.y-2,4,4);
 	};
 })();
+
+//sourced from arpit9295.github.io
+//licenced under GNU GPL v3
